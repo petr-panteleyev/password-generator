@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane id="BorderPane" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.panteleyev.passwdgen.GeneratorController">
+  <center>
+    <VBox>
+      <children>
+        <TitledPane animated="false" collapsible="false" focusTraversable="false" text="%password">
+          <content>
+            <BorderPane focusTraversable="true">
+              <center>
+                <TextField fx:id="passwdField" editable="false" focusTraversable="false" prefWidth="200.0" />
+              </center>
+            </BorderPane>
+          </content>
+        </TitledPane>
+        <TitledPane animated="false" collapsible="false" focusTraversable="false" text="Options">
+          <content>
+            <HBox id="optionsPane" alignment="CENTER_LEFT">
+              <children>
+                <CheckBox fx:id="upperCaseCheckBox" mnemonicParsing="false" selected="true" text="%upperCase">
+                  <HBox.margin>
+                    <Insets />
+                  </HBox.margin>
+                </CheckBox>
+                <CheckBox fx:id="lowerCaseCheckBox" mnemonicParsing="false" selected="true" text="%lowerCase">
+                  <HBox.margin>
+                    <Insets left="5.0" fx:id="x1" />
+                  </HBox.margin>
+                </CheckBox>
+                <CheckBox fx:id="digitsCheckBox" mnemonicParsing="false" selected="true" text="%digits" HBox.margin="$x1" />
+                <CheckBox fx:id="symbolsCheckBox" mnemonicParsing="false" text="%symbols" HBox.margin="$x1" />
+                <Label text="%length" HBox.margin="$x1" />
+                <ComboBox fx:id="lengthComboBox">
+                  <HBox.margin>
+                    <Insets left="3.0" />
+                  </HBox.margin>
+                </ComboBox>
+              </children>
+            </HBox>
+          </content>
+        </TitledPane>
+        <TitledPane animated="false" collapsible="false" focusTraversable="false" text="Presets">
+          <content>
+            <FlowPane id="buttonPane">
+              <children>
+                <Button mnemonicParsing="false" onAction="#onUnixButtonPressed" text="UNIX" />
+                <Button mnemonicParsing="false" onAction="#onPinButtonPressed" text="PIN">
+                  <FlowPane.margin>
+                    <Insets left="10.0" />
+                  </FlowPane.margin>
+                </Button>
+                <CheckBox fx:id="avoidAmbiguousLettesCheckBox" mnemonicParsing="false" selected="true" text="%avoid">
+                  <FlowPane.margin>
+                    <Insets left="20.0" />
+                  </FlowPane.margin>
+                </CheckBox>
+              </children>
+            </FlowPane>
+          </content>
+        </TitledPane>
+      </children>
+    </VBox>
+  </center>
+  <stylesheets>
+    <URL value="@generator.css" />
+  </stylesheets>
+  <top>
+    <MenuBar fx:id="menuBar">
+      <menus>
+        <Menu mnemonicParsing="false" text="%menuFile">
+          <items>
+            <MenuItem fx:id="genItem" mnemonicParsing="false" onAction="#onGenerate" text="%menuGenerate" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#onExit" text="%menuExit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="%menuEdit">
+          <items>
+            <MenuItem fx:id="copyItem" mnemonicParsing="false" onAction="#onCopy" text="%menuCopy" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+  </top>
+</BorderPane>
