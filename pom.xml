@@ -5,27 +5,21 @@
     <artifactId>password-generator</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-    <parent>
-        <groupId>org.panteleyev</groupId>
-        <artifactId>java</artifactId>
-        <version>20170110</version>
-    </parent>
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <app.main.class>org.panteleyev.passwdgen.PasswordGeneratorApplication</app.main.class>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.9.6</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.fxml</include>
-                    <include>**/*.css</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -67,7 +61,7 @@
                                 <argument>Password Generator</argument>
                                 <argument>-srcfiles</argument>
                                 <argument>target/${project.artifactId}-${project.version}.jar</argument>
-                                <argument>-Bicon=icons.ico</argument>
+                                <argument>-Bicon=icons/icons.ico</argument>
                                 <argument>-BappVersion=${project.version}</argument>
                                 <argument>-BsystemWide=true</argument>
                                 <argument>-Bcopyright=Copyright (c) 2010, 2017, Petr Panteleyev</argument>
@@ -101,7 +95,7 @@
                                 <argument>Password Generator</argument>
                                 <argument>-srcfiles</argument>
                                 <argument>target/${project.artifactId}-${project.version}.jar</argument>
-                                <argument>-Bicon=icons.icns</argument>
+                                <argument>-Bicon=icons/icons.icns</argument>
                                 <argument>-BappVersion=${project.version}</argument>
                                 <argument>-appclass</argument>
                                 <argument>${app.main.class}</argument>
@@ -131,7 +125,7 @@
                                 <argument>Password Generator</argument>
                                 <argument>-srcfiles</argument>
                                 <argument>target/${project.artifactId}-${project.version}.jar</argument>
-                                <argument>-Bicon=icon.png</argument>
+                                <argument>-Bicon=icons/icon.png</argument>
                                 <argument>-BappVersion=${project.version}</argument>
                                 <argument>-BsystemWide=true</argument>
                                 <argument>-Bcopyright=Copyright (c) 2017, Petr Panteleyev</argument>

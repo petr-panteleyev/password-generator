@@ -22,37 +22,32 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
-
 package org.panteleyev.passwdgen;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.util.ResourceBundle;
 
 public class PasswordGeneratorApplication extends Application {
+    static final String BUNDLE_PATH = "org.panteleyev.passwdgen.bundles.PasswordGenerator";
+    private static final String CSS_PATH = "/org/panteleyev/passwdgen/res/generator.css";
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-        ResourceBundle bundle = ResourceBundle.getBundle("org.panteleyev.passwdgen.bundles.PasswordGenerator");
-        String title = bundle.getString("title");
+        ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_PATH);
 
-        stage.setTitle(title);
+        stage.setTitle(bundle.getString("title"));
         stage.setResizable(false);
 
-        URL location = getClass().getResource("/org/panteleyev/passwdgen/Generator.fxml");
-
-        FXMLLoader loader = new FXMLLoader(location, bundle);
-        Parent parent = loader.load();
-        stage.setScene(new Scene(parent));
+        Scene scene = new Scene(new GeneratorController());
+        scene.getStylesheets().add(CSS_PATH);
+        stage.setScene(scene);
         stage.show();
     }
 }

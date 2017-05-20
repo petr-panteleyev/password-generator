@@ -24,7 +24,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
 package org.panteleyev.passwdgen;
 
 import java.util.Arrays;
