@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017, Petr Panteleyev <petr@panteleyev.org>
+ * Copyright (c) 2017, Petr Panteleyev <petr@panteleyev.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,31 +23,36 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.panteleyev.passwdgen;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import java.util.ResourceBundle;
+package org.panteleyev.passwdgen
 
-public class PasswordGeneratorApplication extends Application {
-    static final String BUNDLE_PATH = "org.panteleyev.passwdgen.bundles.PasswordGenerator";
-    private static final String CSS_PATH = "/org/panteleyev/passwdgen/res/generator.css";
+import javafx.application.Application
+import javafx.scene.Scene
+import javafx.stage.Stage
+import java.util.ResourceBundle
 
-    public static void main(String[] args) {
-        launch(args);
+class PasswordGeneratorApplication : Application() {
+    companion object {
+        internal val BUNDLE_PATH = "org.panteleyev.passwdgen.bundles.PasswordGenerator"
+        private val CSS_PATH = "/org/panteleyev/passwdgen/res/generator.css"
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_PATH);
+    override fun start(stage: Stage) {
+        val bundle = ResourceBundle.getBundle(BUNDLE_PATH)
 
-        stage.setTitle(bundle.getString("title"));
-        stage.setResizable(false);
+        with (stage) {
+            title = bundle.getString("title")
+            isResizable = false
 
-        Scene scene = new Scene(new GeneratorController());
-        scene.getStylesheets().add(CSS_PATH);
-        stage.setScene(scene);
-        stage.show();
+            scene = Scene(GeneratorController()).apply {
+                stylesheets.add(CSS_PATH)
+            }
+
+            show()
+        }
     }
+}
+
+fun main(args: Array<String>) {
+    Application.launch(*args)
 }
