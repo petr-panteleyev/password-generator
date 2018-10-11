@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017, Petr Panteleyev <petr@panteleyev.org>
+ * Copyright (c) 2012, 2018, Petr Panteleyev <petr@panteleyev.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,36 +46,37 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
 import java.util.ResourceBundle;
 
 class GeneratorController extends BorderPane {
-    private final ResourceBundle        rb = ResourceBundle.getBundle(PasswordGeneratorApplication.BUNDLE_PATH);
+    private final ResourceBundle rb = ResourceBundle.getBundle(PasswordGeneratorApplication.BUNDLE_PATH);
 
-    private final Generator             g = new Generator();
+    private final Generator g = new Generator();
 
-    private final CheckBox              digitsCheckBox = new CheckBox(rb.getString("digits"));
-    private final CheckBox              upperCaseCheckBox = new CheckBox(rb.getString("upperCase"));
-    private final CheckBox              lowerCaseCheckBox = new CheckBox(rb.getString("lowerCase"));
-    private final CheckBox              symbolsCheckBox = new CheckBox(rb.getString("symbols"));
-    private final CheckBox              avoidAmbiguousLettesCheckBox = new CheckBox(rb.getString("avoid"));
-    private final TextField             passwdField = new TextField();
-    private final ComboBox<Integer>     lengthComboBox = new ComboBox<>();
+    private final CheckBox digitsCheckBox = new CheckBox(rb.getString("digits"));
+    private final CheckBox upperCaseCheckBox = new CheckBox(rb.getString("upperCase"));
+    private final CheckBox lowerCaseCheckBox = new CheckBox(rb.getString("lowerCase"));
+    private final CheckBox symbolsCheckBox = new CheckBox(rb.getString("symbols"));
+    private final CheckBox avoidAmbiguousLettesCheckBox = new CheckBox(rb.getString("avoid"));
+    private final TextField passwdField = new TextField();
+    private final ComboBox<Integer> lengthComboBox = new ComboBox<>();
 
     GeneratorController() {
         // Main menu
 
-        MenuItem genItem = new MenuItem(rb.getString("menuGenerate"));
+        var genItem = new MenuItem(rb.getString("menuGenerate"));
         genItem.setOnAction(a -> onGenerate());
         genItem.setAccelerator(new KeyCodeCombination(KeyCode.G, KeyCombination.SHORTCUT_DOWN));
 
-        MenuItem exitItem = new MenuItem(rb.getString("menuExit"));
+        var exitItem = new MenuItem(rb.getString("menuExit"));
         exitItem.setOnAction(a -> onExit());
 
-        MenuItem copyItem = new MenuItem(rb.getString("menuCopy"));
+        var copyItem = new MenuItem(rb.getString("menuCopy"));
         copyItem.setOnAction(a -> onCopy());
         copyItem.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.SHORTCUT_DOWN));
 
-        MenuBar menuBar = new MenuBar(
+        var menuBar = new MenuBar(
                 new Menu(rb.getString("menuFile"), null,
                         genItem, new SeparatorMenuItem(), exitItem),
                 new Menu(rb.getString("menuEdit"), null,
@@ -86,11 +87,11 @@ class GeneratorController extends BorderPane {
 
         setTop(menuBar);
 
-        BorderPane p1 = new BorderPane();
+        var p1 = new BorderPane();
         p1.setCenter(passwdField);
 
-        Label lenLabel = new Label(rb.getString("length"));
-        HBox hBox = new HBox(
+        var lenLabel = new Label(rb.getString("length"));
+        var hBox = new HBox(
                 upperCaseCheckBox,
                 lowerCaseCheckBox,
                 digitsCheckBox,
@@ -100,19 +101,19 @@ class GeneratorController extends BorderPane {
         );
         hBox.setAlignment(Pos.CENTER_LEFT);
 
-        Insets m5 = new Insets(0, 0, 0, 5);
+        var m5 = new Insets(0, 0, 0, 5);
         HBox.setMargin(digitsCheckBox, m5);
         HBox.setMargin(lowerCaseCheckBox, m5);
         HBox.setMargin(symbolsCheckBox, m5);
         HBox.setMargin(lenLabel, m5);
         HBox.setMargin(lengthComboBox, new Insets(0, 0, 0, 3));
 
-        Button unixButton = new Button("UNIX");
+        var unixButton = new Button("UNIX");
         unixButton.setOnAction(a -> onUnixButtonPressed());
-        Button pinButton = new Button("PIN");
+        var pinButton = new Button("PIN");
         pinButton.setOnAction(a -> onPinButtonPressed());
 
-        FlowPane flow = new FlowPane(
+        var flow = new FlowPane(
                 unixButton, pinButton,
                 avoidAmbiguousLettesCheckBox
         );
@@ -120,7 +121,7 @@ class GeneratorController extends BorderPane {
         FlowPane.setMargin(pinButton, new Insets(0, 0, 0, 10));
         FlowPane.setMargin(avoidAmbiguousLettesCheckBox, new Insets(0, 0, 0, 20));
 
-        VBox vBox = new VBox(
+        var vBox = new VBox(
                 new TitledPane(rb.getString("password"), p1),
                 new TitledPane("Options", hBox),
                 new TitledPane("Presets", flow)
@@ -170,8 +171,8 @@ class GeneratorController extends BorderPane {
     }
 
     private void onCopy() {
-        Clipboard cb = Clipboard.getSystemClipboard();
-        ClipboardContent ct = new ClipboardContent();
+        var cb = Clipboard.getSystemClipboard();
+        var ct = new ClipboardContent();
         ct.putString(passwdField.getText());
         cb.setContent(ct);
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2017, Petr Panteleyev <petr@panteleyev.org>
+ * Copyright (c) 2010, 2018, Petr Panteleyev <petr@panteleyev.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -90,7 +91,7 @@ class Generator {
         }
 
         boolean check(String pwd) {
-            for (char ch : pwd.toCharArray()) {
+            for (var ch : pwd.toCharArray()) {
                 if (chars.contains(ch)) {
                     return true;
                 }
@@ -148,7 +149,7 @@ class Generator {
             throw new IllegalArgumentException("Password length must be 4 or greater");
         }
 
-        final List<Bucket> usedBuckets = buckets.stream()
+        var usedBuckets = buckets.stream()
                 .filter(x -> x.usedProperty().getValue())
                 .collect(Collectors.toList());
 
@@ -158,13 +159,13 @@ class Generator {
 
         password.setValue("");
         while (password.getValue().isEmpty()) {
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
 
             for (int i = 0; i < len; ++i) {
-                Bucket bucket = usedBuckets.get(random.nextInt(usedBuckets.size()));
+                var bucket = usedBuckets.get(random.nextInt(usedBuckets.size()));
 
                 char sym = ' ';
-                boolean symOk = false;
+                var symOk = false;
                 while (!symOk) {
                     sym = bucket.getChar(random.nextInt(bucket.getSize()));
                     symOk = !avoidAmbiguousLetters.getValue() || !BAD_LETTERS.contains(sym);
@@ -172,7 +173,7 @@ class Generator {
                 res.append(sym);
             }
 
-            final String pwd = res.toString();
+            var pwd = res.toString();
 
             if (usedBuckets.stream().allMatch(x -> x.check(pwd))) {
                 password.setValue(pwd);

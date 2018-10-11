@@ -1,5 +1,9 @@
 # Change Log
 
+[18.1.0] - 2018-10-11
+
+- Java 11
+
 [1.0.0] - 2017-01-08
 
 - Support for two presets: Unix and PIN

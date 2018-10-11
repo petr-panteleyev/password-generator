@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017, Petr Panteleyev <petr@panteleyev.org>
+ * Copyright (c) 2012, 2018, Petr Panteleyev <petr@panteleyev.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,6 +28,7 @@ package org.panteleyev.passwdgen;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import java.util.ResourceBundle;
 
 public class PasswordGeneratorApplication extends Application {
@@ -40,12 +41,12 @@ public class PasswordGeneratorApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_PATH);
+        var bundle = ResourceBundle.getBundle(BUNDLE_PATH);
 
         stage.setTitle(bundle.getString("title"));
         stage.setResizable(false);
 
-        Scene scene = new Scene(new GeneratorController());
+        var scene = new Scene(new GeneratorController());
         scene.getStylesheets().add(CSS_PATH);
         stage.setScene(scene);
         stage.show();

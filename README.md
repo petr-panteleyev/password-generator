@@ -18,5 +18,5 @@ This options excludes characters that may look confusing depending on font: 'I',
 ## Running
 
 ```
-java -jar password-generator-X.Y.Z.jar
+java --module-path <path> -Dfile.encoding=UTF-8 -m password.generator/org.panteleyev.passwdgen.PasswordGeneratorApplication
 ```
