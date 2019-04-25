@@ -1,1 +1,0 @@
-@start /b java --module-path %~dp0 -Dfile.encoding=UTF-8 -m password.generator/org.panteleyev.passwdgen.PasswordGeneratorApplication

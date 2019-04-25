@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2018, Petr Panteleyev <petr@panteleyev.org>
+ * Copyright (c) 2012, 2020, Petr Panteleyev <petr@panteleyev.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -77,10 +77,10 @@ class GeneratorController extends BorderPane {
         copyItem.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.SHORTCUT_DOWN));
 
         var menuBar = new MenuBar(
-                new Menu(rb.getString("menuFile"), null,
-                        genItem, new SeparatorMenuItem(), exitItem),
-                new Menu(rb.getString("menuEdit"), null,
-                        copyItem)
+            new Menu(rb.getString("menuFile"), null,
+                genItem, new SeparatorMenuItem(), exitItem),
+            new Menu(rb.getString("menuEdit"), null,
+                copyItem)
         );
 
         menuBar.setUseSystemMenuBar(true);
@@ -92,12 +92,12 @@ class GeneratorController extends BorderPane {
 
         var lenLabel = new Label(rb.getString("length"));
         var hBox = new HBox(
-                upperCaseCheckBox,
-                lowerCaseCheckBox,
-                digitsCheckBox,
-                symbolsCheckBox,
-                lenLabel,
-                lengthComboBox
+            upperCaseCheckBox,
+            lowerCaseCheckBox,
+            digitsCheckBox,
+            symbolsCheckBox,
+            lenLabel,
+            lengthComboBox
         );
         hBox.setAlignment(Pos.CENTER_LEFT);
 
@@ -114,17 +114,18 @@ class GeneratorController extends BorderPane {
         pinButton.setOnAction(a -> onPinButtonPressed());
 
         var flow = new FlowPane(
-                unixButton, pinButton,
-                avoidAmbiguousLettesCheckBox
+            unixButton, pinButton,
+            avoidAmbiguousLettesCheckBox
         );
 
         FlowPane.setMargin(pinButton, new Insets(0, 0, 0, 10));
         FlowPane.setMargin(avoidAmbiguousLettesCheckBox, new Insets(0, 0, 0, 20));
+        avoidAmbiguousLettesCheckBox.setSelected(true);
 
         var vBox = new VBox(
-                new TitledPane(rb.getString("password"), p1),
-                new TitledPane("Options", hBox),
-                new TitledPane("Presets", flow)
+            new TitledPane(rb.getString("password"), p1),
+            new TitledPane("Options", hBox),
+            new TitledPane("Presets", flow)
         );
 
         setCenter(vBox);

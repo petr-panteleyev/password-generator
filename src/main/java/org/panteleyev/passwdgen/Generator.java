@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018, Petr Panteleyev <petr@panteleyev.org>
+ * Copyright (c) 2010, 2020, Petr Panteleyev <petr@panteleyev.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,25 +44,25 @@ class Generator {
     private final BooleanProperty avoidAmbiguousLetters = new SimpleBooleanProperty();
 
     static final List<Character> UPPER_CASE_CHARS = List.of(
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
     );
 
     static final List<Character> LOWER_CASE_CHARS = List.of(
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+        'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
     );
 
     static final List<Character> DIGITS = List.of(
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
     );
 
     static final List<Character> SYMBOLS = List.of(
-            '@', '#', '$', '%', '&', '*', '(', ')', '-', '+', '=', '^', '.', ','
+        '@', '#', '$', '%', '&', '*', '(', ')', '-', '+', '=', '^', '.', ','
     );
 
     static final List<Character> BAD_LETTERS = List.of(
-            'I', 'l', 'O', '0'
+        'I', 'l', 'O', '0'
     );
 
     private enum Bucket {
@@ -101,7 +101,7 @@ class Generator {
     }
 
     private final List<Bucket> buckets = List.of(
-            Bucket.B_UPPER_CASE, Bucket.B_LOWER_CASE, Bucket.B_DIGITS, Bucket.B_SYMBOLS
+        Bucket.B_UPPER_CASE, Bucket.B_LOWER_CASE, Bucket.B_DIGITS, Bucket.B_SYMBOLS
     );
 
     private final Random random = new Random(System.currentTimeMillis());
@@ -150,8 +150,8 @@ class Generator {
         }
 
         var usedBuckets = buckets.stream()
-                .filter(x -> x.usedProperty().getValue())
-                .collect(Collectors.toList());
+            .filter(x -> x.usedProperty().getValue())
+            .collect(Collectors.toList());
 
         if (usedBuckets.isEmpty()) {
             throw new IllegalArgumentException("At least one character set must be selected");

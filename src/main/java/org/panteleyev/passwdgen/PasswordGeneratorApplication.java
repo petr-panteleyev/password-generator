@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2018, Petr Panteleyev <petr@panteleyev.org>
+ * Copyright (c) 2012, 2020, Petr Panteleyev <petr@panteleyev.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,7 +28,6 @@ package org.panteleyev.passwdgen;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.util.ResourceBundle;
 
 public class PasswordGeneratorApplication extends Application {
