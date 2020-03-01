@@ -43,10 +43,8 @@ Application JAR and all dependencies will be placed in ```target/jmods```.
 
 JDK-13 is required to run the application.
 
-
 ```
-java --module-path target/jmods -Dfile.encoding=UTF-8 \
-        -m password.generator/org.panteleyev.passwdgen.PasswordGeneratorApplication
+mvn javafx:run
 ```
 
 ### Binary Packages

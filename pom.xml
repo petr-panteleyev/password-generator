@@ -9,7 +9,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>13</maven.compiler.source>
         <maven.compiler.target>13</maven.compiler.target>
-        <app.main.class>org.panteleyev.passwdgen.PasswordGeneratorApplication</app.main.class>
+        <appModule>password.generator</appModule>
+        <appMainClass>org.panteleyev.passwdgen.PasswordGeneratorApplication</appMainClass>
         <!-- dependencies -->
         <javaFxVersion>13.0.1</javaFxVersion>
         <testNgVersion>6.14.3</testNgVersion>
@@ -18,6 +19,7 @@
         <mavenCompilerPluginVersion>3.8.1</mavenCompilerPluginVersion>
         <mavenJarPluginVersion>3.2.0</mavenJarPluginVersion>
         <mavenDependencyPluginVersion>3.1.1</mavenDependencyPluginVersion>
+        <javaFxPluginVersion>0.0.4</javaFxPluginVersion>
     </properties>
     <dependencies>
         <dependency>
@@ -71,7 +73,7 @@
                     <outputDirectory>target/jmods</outputDirectory>
                     <archive>
                         <manifestEntries>
-                            <Main-Class>${app.main.class}</Main-Class>
+                            <Main-Class>${appMainClass}</Main-Class>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -94,6 +96,17 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>${javaFxPluginVersion}</version>
+                <configuration>
+                    <mainClass>${appModule}/${appMainClass}</mainClass>
+                    <options>
+                        <option>-Dfile.encoding=UTF-8</option>
+                    </options>
+                </configuration>
             </plugin>
         </plugins>
     </build>
