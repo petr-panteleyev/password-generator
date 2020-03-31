@@ -17,6 +17,8 @@ This options excludes characters that may look confusing depending on font: 'I',
 
 ## Build and Run
 
+JDK-14 is required to build and run the application.
+
 ### Build
 
 Make sure Maven toolchain configuration ```toolchain.xml``` contains the following
@@ -25,10 +27,10 @@ definition:
 <toolchain>
     <type>jdk</type>
     <provides>
-        <version>13</version>
+        <version>14</version>
     </provides>
     <configuration>
-        <jdkHome>/path/to/jdk-13</jdkHome>
+        <jdkHome>/path/to/jdk-14</jdkHome>
     </configuration>
 </toolchain>
 ```
@@ -41,8 +43,6 @@ Application JAR and all dependencies will be placed in ```target/jmods```.
 
 ### Run
 
-JDK-13 is required to run the application.
-
 ```
 mvn javafx:run
 ```
@@ -50,16 +50,14 @@ mvn javafx:run
 ### Binary Packages
 
 To build binary installers perform the following steps:
-* Install [JDK-14 EA](https://jdk.java.net/14/) build
-* Set ```JPACKAGE_HOME``` environment variable to the root directory of JDK-14
 * On Microsoft Windows: install [WiX Toolset](https://wixtoolset.org/releases/), add its binary directory to ```PATH``` 
 environment variable
 * Execute the following commands:
 ```shell script
 $ mvn clean package
-$ ./extras/osx-app.sh
+$ mvn exec:exec@dist-mac
   or
-$ ./extras/win-app.sh
+$ mvn exec:exec@dist-win
 ```
 
 Installation packages will be found in ```target/dist``` directory.
