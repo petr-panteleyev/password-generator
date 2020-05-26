@@ -106,7 +106,6 @@
                     <name>Password Generator</name>
                     <appVersion>${project.version}</appVersion>
                     <vendor>panteleyev.org</vendor>
-                    <runtimeImage>${java.home}</runtimeImage>
                     <module>${appModule}/${appMainClass}</module>
                     <modulePath>target/jmods</modulePath>
                     <destination>target/dist</destination>
