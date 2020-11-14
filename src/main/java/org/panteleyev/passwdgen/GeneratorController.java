@@ -1,27 +1,13 @@
-package org.panteleyev.passwdgen;
-
 /*
- * Copyright (c) Petr Panteleyev. All rights reserved.
- * Licensed under the BSD license. See LICENSE file in the project root for full license information.
+ Copyright (c) Petr Panteleyev. All rights reserved.
+ Licensed under the BSD license. See LICENSE file in the project root for full license information.
  */
+package org.panteleyev.passwdgen;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
+import javafx.scene.control.*;
+import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -57,10 +43,10 @@ class GeneratorController extends BorderPane {
         copyItem.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.SHORTCUT_DOWN));
 
         var menuBar = new MenuBar(
-            new Menu(rb.getString("menuFile"), null,
-                genItem, new SeparatorMenuItem(), exitItem),
-            new Menu(rb.getString("menuEdit"), null,
-                copyItem)
+                new Menu(rb.getString("menuFile"), null,
+                        genItem, new SeparatorMenuItem(), exitItem),
+                new Menu(rb.getString("menuEdit"), null,
+                        copyItem)
         );
 
         menuBar.setUseSystemMenuBar(true);
@@ -72,12 +58,12 @@ class GeneratorController extends BorderPane {
 
         var lenLabel = new Label(rb.getString("length"));
         var hBox = new HBox(
-            upperCaseCheckBox,
-            lowerCaseCheckBox,
-            digitsCheckBox,
-            symbolsCheckBox,
-            lenLabel,
-            lengthComboBox
+                upperCaseCheckBox,
+                lowerCaseCheckBox,
+                digitsCheckBox,
+                symbolsCheckBox,
+                lenLabel,
+                lengthComboBox
         );
         hBox.setAlignment(Pos.CENTER_LEFT);
 
@@ -94,8 +80,8 @@ class GeneratorController extends BorderPane {
         pinButton.setOnAction(a -> onPinButtonPressed());
 
         var flow = new FlowPane(
-            unixButton, pinButton,
-            avoidAmbiguousLettesCheckBox
+                unixButton, pinButton,
+                avoidAmbiguousLettesCheckBox
         );
 
         FlowPane.setMargin(pinButton, new Insets(0, 0, 0, 10));
@@ -103,16 +89,16 @@ class GeneratorController extends BorderPane {
         avoidAmbiguousLettesCheckBox.setSelected(true);
 
         var vBox = new VBox(
-            new TitledPane(rb.getString("password"), p1),
-            new TitledPane("Options", hBox),
-            new TitledPane("Presets", flow)
+                new TitledPane(rb.getString("password"), p1),
+                new TitledPane("Options", hBox),
+                new TitledPane("Presets", flow)
         );
 
         setCenter(vBox);
 
         // Initial state
         lengthComboBox.getItems().addAll(4, 6, 8, 16, 24, 32);
-        lengthComboBox.getSelectionModel().select(2);
+        lengthComboBox.getSelectionModel().select(5);
         upperCaseCheckBox.setSelected(true);
         lowerCaseCheckBox.setSelected(true);
         digitsCheckBox.setSelected(true);
