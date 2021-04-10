@@ -15,49 +15,32 @@ There are two presets called by the corresponding button:
 
 This options excludes characters that may look confusing depending on font: 'I', 'l', 'O', '0'.
 
-## Build and Run
+## Build
 
-JDK-14 is required to build and run the application.
+Set ```JAVA_HOME``` to JDK 16.
 
-### Build
-
-Make sure Maven toolchain configuration ```toolchain.xml``` contains the following
-definition:
-```xml
-<toolchain>
-    <type>jdk</type>
-    <provides>
-        <version>14</version>
-    </provides>
-    <configuration>
-        <jdkHome>/path/to/jdk-14</jdkHome>
-    </configuration>
-</toolchain>
-```
-Execute the following:
 ```shell script
 $ mvn clean package
 ```
 
 Application JAR and all dependencies will be placed in ```target/jmods```.
 
-### Run
+## Run
 
 ```
 mvn javafx:run
 ```
 
-### Binary Packages
+## Binary Packages
 
 To build binary installers perform the following steps:
 * On Microsoft Windows: install [WiX Toolset](https://wixtoolset.org/releases/), add its binary directory to ```PATH``` 
 environment variable
 * Execute the following commands:
 ```shell script
-$ mvn clean package
-$ mvn jpackage:jpackage@mac
+$ mvn clean package jpackage:jpackage@mac
   or
-$ mvn jpackage:jpackage@win
+$ mvn clean package jpackage:jpackage@win
 ```
 
 Installation packages will be found in ```target/dist``` directory.

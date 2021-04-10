@@ -4,24 +4,22 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.panteleyev</groupId>
     <artifactId>password-generator</artifactId>
-    <version>20.1.4</version>
+    <version>21.1.0</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>15</maven.compiler.target>
+        <maven.compiler.release>16</maven.compiler.release>
         <appModule>password.generator</appModule>
         <appMainClass>org.panteleyev.passwdgen.PasswordGeneratorApplication</appMainClass>
         <!-- dependencies -->
-        <javaFxVersion>15.0.1</javaFxVersion>
+        <javaFxVersion>16</javaFxVersion>
         <testNgVersion>7.3.0</testNgVersion>
         <!-- plugins -->
-        <mavenToolchainPluginVersion>3.0.0</mavenToolchainPluginVersion>
         <mavenCompilerPluginVersion>3.8.1</mavenCompilerPluginVersion>
         <mavenJarPluginVersion>3.2.0</mavenJarPluginVersion>
         <mavenDependencyPluginVersion>3.1.1</mavenDependencyPluginVersion>
-        <javaFxPluginVersion>0.0.4</javaFxPluginVersion>
-        <jpackageMavenPluginVersion>1.2.1</jpackageMavenPluginVersion>
+        <javaFxPluginVersion>0.0.5</javaFxPluginVersion>
+        <jpackageMavenPluginVersion>1.5.0</jpackageMavenPluginVersion>
     </properties>
     <dependencies>
         <dependency>
@@ -44,25 +42,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-toolchains-plugin</artifactId>
-                <version>${mavenToolchainPluginVersion}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>toolchain</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <toolchains>
-                        <jdk>
-                            <version>${maven.compiler.source}</version>
-                        </jdk>
-                    </toolchains>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -109,7 +88,9 @@
                     <appVersion>${project.version}</appVersion>
                     <vendor>panteleyev.org</vendor>
                     <module>${appModule}/${appMainClass}</module>
-                    <modulePath>target/jmods</modulePath>
+                    <modulePaths>
+                        <modulePath>target/jmods</modulePath>
+                    </modulePaths>
                     <destination>target/dist</destination>
                     <javaOptions>
                         <option>-Dfile.encoding=UTF-8</option>
