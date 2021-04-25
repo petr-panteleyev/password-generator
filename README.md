@@ -1,19 +1,27 @@
 # Password Generator
 
+[![BSD-2 license](https://img.shields.io/badge/License-BSD--2-informational.svg)](LICENSE)
+[![Java](https://img.shields.io/badge/Java-16-orange?logo=java)](https://www.oracle.com/java/technologies/javase-downloads.html)
+[![JavaFX](https://img.shields.io/badge/JavaFX-16-orange?logo=java)](https://openjfx.io/)
+
 Simple password generator for desktop platforms like OS X, Linux or Windows.
 
 ![screenshot](docs/screenshot.png)
 
 ## Presets
 
-There are two presets called by the corresponding button:
+There are several presets called by the corresponding menu item:
 
-* UNIX - 8 letters and digits
-* PIN - 4 digits
+|Preset|Upper Case|Lower Case|Digits|Symbols|Length|
+|---|---|---|---|---|---|
+|Long|X|X|X|X|32|
+|Medium|X|X|X|X|16|
+|UNIX|X|X|X|X|8|
+|PIN| | |X| |4|
 
 ## Ambiguous Letters
 
-This options excludes characters that may look confusing depending on font: 'I', 'l', 'O', '0'.
+This options excludes characters that may look confusing depending on font: 'I', 'l', 'O'.
 
 ## Build
 

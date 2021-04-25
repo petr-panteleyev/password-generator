@@ -12,7 +12,8 @@ import javafx.stage.Stage;
 import java.util.ResourceBundle;
 
 public class PasswordGeneratorApplication extends Application {
-    static final String BUNDLE_PATH = "org.panteleyev.passwdgen.bundles.PasswordGenerator";
+    static final ResourceBundle RB = ResourceBundle.getBundle("org.panteleyev.passwdgen.bundles.PasswordGenerator");
+
     private static final String CSS_PATH = "/org/panteleyev/passwdgen/res/generator.css";
     private static final String ICON_PATH = "org/panteleyev/passwdgen/res/password.png";
 
@@ -22,9 +23,7 @@ public class PasswordGeneratorApplication extends Application {
 
     @Override
     public void start(Stage stage) {
-        var bundle = ResourceBundle.getBundle(BUNDLE_PATH);
-
-        stage.setTitle(bundle.getString("title"));
+        stage.setTitle(RB.getString("title"));
         stage.setResizable(false);
 
         var scene = new Scene(new GeneratorController());

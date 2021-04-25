@@ -5,19 +5,20 @@
 package org.panteleyev.passwdgen;
 
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 class Generator {
-    private final IntegerProperty length = new SimpleIntegerProperty();
+    static final String ERROR_MESSAGE = "Error: at least one character set must be selected";
+
+    private final ObjectProperty<PasswordLength> length = new SimpleObjectProperty<>();
     private final StringProperty password = new SimpleStringProperty();
     private final BooleanProperty avoidAmbiguousLetters = new SimpleBooleanProperty();
 
@@ -40,7 +41,7 @@ class Generator {
     );
 
     static final List<Character> BAD_LETTERS = List.of(
-        'I', 'l', 'O', '0'
+        'I', 'l', 'O'
     );
 
     private enum Bucket {
@@ -103,7 +104,7 @@ class Generator {
         return Bucket.B_UPPER_CASE.usedProperty();
     }
 
-    IntegerProperty lengthProperty() {
+    ObjectProperty<PasswordLength> lengthProperty() {
         return length;
     }
 
@@ -121,18 +122,15 @@ class Generator {
      * @throws IllegalArgumentException if password length &lt; 4
      */
     void generate() {
-        int len = length.getValue();
-
-        if (len < 4) {
-            throw new IllegalArgumentException("Password length must be 4 or greater");
-        }
+        int len = length.getValue().getLength();
 
         var usedBuckets = buckets.stream()
             .filter(x -> x.usedProperty().getValue())
             .collect(Collectors.toList());
 
         if (usedBuckets.isEmpty()) {
-            throw new IllegalArgumentException("At least one character set must be selected");
+            password.setValue(ERROR_MESSAGE);
+            return;
         }
 
         password.setValue("");
