@@ -1,7 +1,7 @@
 # Password Generator
 
 [![BSD-2 license](https://img.shields.io/badge/License-BSD--2-informational.svg)](LICENSE)
-[![Java](https://img.shields.io/badge/Java-16-orange?logo=java)](https://www.oracle.com/java/technologies/javase-downloads.html)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.5.0-orange?logo=kotlin)](https://kotlinlang.org/)
 [![JavaFX](https://img.shields.io/badge/JavaFX-16-orange?logo=java)](https://openjfx.io/)
 
 Simple password generator for desktop platforms like OS X, Linux or Windows.
@@ -28,7 +28,7 @@ This options excludes characters that may look confusing depending on font: 'I',
 Set ```JAVA_HOME``` to JDK 16.
 
 ```shell script
-$ mvn clean package
+$ ./gradlew clean build
 ```
 
 Application JAR and all dependencies will be placed in ```target/jmods```.
@@ -36,7 +36,7 @@ Application JAR and all dependencies will be placed in ```target/jmods```.
 ## Run
 
 ```
-mvn javafx:run
+./gradlew run
 ```
 
 ## Binary Packages
@@ -46,12 +46,10 @@ To build binary installers perform the following steps:
 environment variable
 * Execute the following commands:
 ```shell script
-$ mvn clean package jpackage:jpackage@mac
-  or
-$ mvn clean package jpackage:jpackage@win
+$ ./gradlew clean build jpackage
 ```
 
-Installation packages will be found in ```target/dist``` directory.
+Installation packages will be found in ```build/dist``` directory.
 
 ## Support
 
