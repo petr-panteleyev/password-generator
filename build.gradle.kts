@@ -3,16 +3,16 @@ import java.time.format.DateTimeFormatter
 
 plugins {
     application
-    kotlin("jvm") version "1.5.0"
+    kotlin("jvm") version "1.6.10"
     id("org.openjfx.javafxplugin") version "0.0.10"
-    id("org.panteleyev.jpackageplugin") version "1.3.0"
+    id("org.panteleyev.jpackageplugin") version "1.3.1"
 }
 
 repositories {
     mavenCentral()
 }
 
-version = "21.3.0"
+version = "22.1.0"
 
 val testNgVersion = "7.3.0"
 
@@ -30,7 +30,7 @@ dependencies {
 
 tasks.compileKotlin {
     kotlinOptions {
-        jvmTarget = "16"
+        jvmTarget = "17"
     }
 }
 
