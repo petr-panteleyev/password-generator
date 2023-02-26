@@ -1,9 +1,5 @@
 # Password Generator
 
-[![BSD-2 license](https://img.shields.io/badge/License-BSD--2-informational.svg)](LICENSE)
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.5.0-orange?logo=kotlin)](https://kotlinlang.org/)
-[![JavaFX](https://img.shields.io/badge/JavaFX-16-orange?logo=java)](https://openjfx.io/)
-
 Simple password generator for desktop platforms like OS X, Linux or Windows.
 
 ![screenshot](docs/screenshot.png)
@@ -25,13 +21,11 @@ This options excludes characters that may look confusing depending on font: 'I',
 
 ## Build
 
-Set ```JAVA_HOME``` to JDK 16.
+Set ```JAVA_HOME``` to JDK 19.
 
 ```shell script
 $ ./gradlew clean build
 ```
-
-Application JAR and all dependencies will be placed in ```target/jmods```.
 
 ## Run
 

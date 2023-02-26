@@ -3,41 +3,47 @@ import java.time.format.DateTimeFormatter
 
 plugins {
     application
-    kotlin("jvm") version "1.6.10"
-    id("org.openjfx.javafxplugin") version "0.0.10"
-    id("org.panteleyev.jpackageplugin") version "1.3.1"
+    kotlin("jvm") version "1.8.10"
+    id("org.panteleyev.javafxplugin") version "1.0.0"
+    id("org.panteleyev.jpackageplugin") version "1.5.1"
 }
 
 repositories {
     mavenCentral()
 }
 
-version = "22.1.0"
+version = "23.2.1"
 
-val testNgVersion = "7.3.0"
+val jvmTarget = 19
+val javaFxVersion = "19.0.2.1"
+val jUnitVersion = "5.9.1"
 
 javafx {
-    version = "16"
-    modules(
+    modules(javaFxVersion, listOf(
         "javafx.base",
         "javafx.controls"
-    )
+    ))
 }
 
 dependencies {
-    testImplementation("org.testng:testng:$testNgVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter:$jUnitVersion")
 }
 
+kotlin {
+    jvmToolchain(jvmTarget)
+}
+
+val compileJava: JavaCompile by tasks
 tasks.compileKotlin {
+    destinationDirectory.set(compileJava.destinationDirectory)
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "$jvmTarget"
     }
 }
 
 application {
     mainModule.set("password.generator")
     mainClass.set("org.panteleyev.passwdgen.PasswordGeneratorApplication")
-    applicationDefaultJvmArgs = listOf("-Dfile.encoding=UTF-8")
 }
 
 tasks.processResources {
@@ -52,7 +58,7 @@ tasks.processResources {
 }
 
 tasks.test {
-    useTestNG()
+    useJUnitPlatform()
 }
 
 task("copyDependencies", Copy::class) {
@@ -71,7 +77,6 @@ tasks.jpackage {
     module = "${application.mainModule.get()}/${application.mainClass.get()}"
     modulePaths = listOf("$buildDir/jmods")
     destination = "$buildDir/dist"
-    javaOptions = listOf("-Dfile.encoding=UTF-8")
 
     mac {
         icon = "icons/icons.icns"
@@ -83,5 +88,10 @@ tasks.jpackage {
         winDirChooser = true
         winUpgradeUuid = "2e0c0a36-7aab-4d84-a5a1-4d98fa296dad"
         winMenuGroup = "panteleyev.org"
+    }
+
+    linux {
+        type = org.panteleyev.jpackage.ImageType.APP_IMAGE
+        icon = "icons/icon.png"
     }
 }

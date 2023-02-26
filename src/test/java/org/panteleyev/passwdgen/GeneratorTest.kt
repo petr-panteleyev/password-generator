@@ -1,32 +1,36 @@
 /*
- Copyright (c) Petr Panteleyev. All rights reserved.
- Licensed under the BSD license. See LICENSE file in the project root for full license information.
+ Copyright © 2021-2023 Petr Panteleyev <petr@panteleyev.org>
+ SPDX-License-Identifier: BSD-2-Clause
  */
 package org.panteleyev.passwdgen
 
-import org.testng.Assert.assertEquals
-import org.testng.Assert.assertFalse
-import org.testng.annotations.DataProvider
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 
 class GeneratorTest {
-    @DataProvider(name = "testPasswordContentData")
-    fun testPasswordContentData(): Array<Array<Any>> {
-        return arrayOf(
-            arrayOf(true, false, false, false, false),
-            arrayOf(false, true, false, false, false),
-            arrayOf(false, false, true, false, false),
-            arrayOf(false, false, false, true, false),
-            arrayOf(false, false, false, true, true),
-            arrayOf(true, true, true, true, true),
-            arrayOf(true, true, true, true, false)
-        )
+    companion object {
+        @JvmStatic
+        fun testPasswordContentData(): List<Arguments> {
+            return listOf(
+                Arguments.of(true, false, false, false, false),
+                Arguments.of(false, true, false, false, false),
+                Arguments.of(false, false, true, false, false),
+                Arguments.of(false, false, false, true, false),
+                Arguments.of(false, false, false, true, true),
+                Arguments.of(true, true, true, true, true),
+                Arguments.of(true, true, true, true, false)
+            )
+        }
     }
 
     @Test
     fun testPasswordLength() {
         PasswordLength.values().forEach {
-            assertEquals(Generator.generate(length = it).length, it.length)
+            assertEquals(it.length, Generator.generate(length = it).length)
         }
     }
 
@@ -34,7 +38,8 @@ class GeneratorTest {
         return array.contains(c)
     }
 
-    @Test(dataProvider = "testPasswordContentData")
+    @ParameterizedTest
+    @MethodSource("testPasswordContentData")
     fun testPasswordContent(
         useDigits: Boolean,
         useUpperCase: Boolean,
@@ -59,11 +64,11 @@ class GeneratorTest {
 
     @Test
     fun testNoCharacterSetSelected() {
-        assertEquals(Generator.generate(
+        assertEquals(Generator.ERROR_MESSAGE, Generator.generate(
             upperCase = false,
             lowerCase = false,
             digits = false,
             symbols = false
-        ), Generator.ERROR_MESSAGE)
+        ))
     }
 }
