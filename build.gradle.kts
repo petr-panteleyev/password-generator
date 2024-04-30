@@ -5,7 +5,7 @@ plugins {
     application
     kotlin("jvm") version "1.8.10"
     id("org.panteleyev.javafxplugin") version "1.0.0"
-    id("org.panteleyev.jpackageplugin") version "1.5.1"
+    id("org.panteleyev.jpackageplugin") version "1.6.0"
 }
 
 repositories {
@@ -15,8 +15,8 @@ repositories {
 version = "23.2.1"
 
 val jvmTarget = 19
-val javaFxVersion = "19.0.2.1"
-val jUnitVersion = "5.9.1"
+val javaFxVersion = "21.0.2"
+val jUnitVersion = "5.11.0-M1"
 
 javafx {
     modules(javaFxVersion, listOf(
