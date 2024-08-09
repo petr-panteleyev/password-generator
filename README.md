@@ -1,5 +1,8 @@
 # Password Generator
 
+![JDK](https://www.panteleyev.org/badges/java-22.svg)
+[![License](https://www.panteleyev.org/badges/license.svg)](LICENSE)
+
 Simple password generator for desktop platforms like OS X, Linux or Windows.
 
 ![screenshot](docs/screenshot.png)
@@ -21,29 +24,30 @@ This options excludes characters that may look confusing depending on font: 'I',
 
 ## Build
 
-Set ```JAVA_HOME``` to JDK 19.
+Set ```JAVA_HOME``` to JDK 22+.
 
 ```shell script
-$ ./gradlew clean build
+$ ./mvnw clean verify
 ```
 
 ## Run
 
 ```
-./gradlew run
+./mvnw javafx:run
 ```
 
 ## Binary Packages
 
 To build binary installers perform the following steps:
-* On Microsoft Windows: install [WiX Toolset](https://wixtoolset.org/releases/), add its binary directory to ```PATH``` 
-environment variable
-* Execute the following commands:
+* On Microsoft Windows: install [WiX Toolset 3.x](https://github.com/wixtoolset/wix3/releases), add its binary
+  directory to ```PATH``` environment variable
+* Execute:
+
 ```shell script
-$ ./gradlew clean build jpackage
+./mvnw clean verify jpackage:jpackage
 ```
 
-Installation packages will be found in ```build/dist``` directory.
+Installation packages will be found in ```target/dist``` directory.
 
 ## Support
 
