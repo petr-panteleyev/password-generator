@@ -1,39 +1,30 @@
 /*
- Copyright © 2021-2024 Petr Panteleyev <petr@panteleyev.org>
+ Copyright © 2021-2025 Petr Panteleyev <petr@panteleyev.org>
  SPDX-License-Identifier: BSD-2-Clause
  */
 package org.panteleyev.passwdgen;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import org.panteleyev.commons.password.PasswordCharacterSet;
 import org.panteleyev.commons.password.PasswordGenerator;
 
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.panteleyev.fx.BoxFactory.hBox;
-import static org.panteleyev.fx.FxUtils.COLON;
-import static org.panteleyev.fx.FxUtils.fxString;
-import static org.panteleyev.fx.LabelFactory.label;
-import static org.panteleyev.fx.MenuFactory.menu;
-import static org.panteleyev.fx.MenuFactory.menuItem;
+import static javax.swing.BoxLayout.Y_AXIS;
 import static org.panteleyev.passwdgen.PasswordGeneratorApplication.UI;
-import static org.panteleyev.passwdgen.Shortcuts.SHORTCUT_C;
-import static org.panteleyev.passwdgen.Shortcuts.SHORTCUT_G;
-import static org.panteleyev.passwdgen.Shortcuts.SHORTCUT_L;
-import static org.panteleyev.passwdgen.Shortcuts.SHORTCUT_M;
-import static org.panteleyev.passwdgen.Shortcuts.SHORTCUT_P;
-import static org.panteleyev.passwdgen.Shortcuts.SHORTCUT_U;
+import static org.panteleyev.passwdgen.Shortcuts.CTRL_C;
+import static org.panteleyev.passwdgen.Shortcuts.CTRL_G;
+import static org.panteleyev.passwdgen.Shortcuts.CTRL_L;
+import static org.panteleyev.passwdgen.Shortcuts.CTRL_M;
+import static org.panteleyev.passwdgen.Shortcuts.CTRL_P;
+import static org.panteleyev.passwdgen.Shortcuts.CTRL_U;
+import static org.panteleyev.passwdgen.Util.COLON;
+import static org.panteleyev.passwdgen.Util.uiString;
 import static org.panteleyev.passwdgen.bundles.Internationalization.I18N_AVOID_AMBIGUOUS;
 import static org.panteleyev.passwdgen.bundles.Internationalization.I18N_COPY;
 import static org.panteleyev.passwdgen.bundles.Internationalization.I18N_DIGITS;
@@ -49,83 +40,149 @@ import static org.panteleyev.passwdgen.bundles.Internationalization.I18N_OPTIONS
 import static org.panteleyev.passwdgen.bundles.Internationalization.I18N_PASSWORD;
 import static org.panteleyev.passwdgen.bundles.Internationalization.I18N_PRESETS;
 import static org.panteleyev.passwdgen.bundles.Internationalization.I18N_SYMBOLS;
+import static org.panteleyev.passwdgen.bundles.Internationalization.I18N_TITLE;
 import static org.panteleyev.passwdgen.bundles.Internationalization.I18N_UPPER_CASE;
 
-class GeneratorController extends BorderPane {
-    private final CheckBox upperCaseCheckBox =
-            characterSetCheckBox(I18N_UPPER_CASE, PasswordCharacterSet.UPPER_CASE_LETTERS);
-    private final CheckBox lowerCaseCheckBox =
-            characterSetCheckBox(I18N_LOWER_CASE, PasswordCharacterSet.LOWER_CASE_LETTERS);
-    private final CheckBox digitsCheckBox =
-            characterSetCheckBox(I18N_DIGITS, PasswordCharacterSet.DIGITS);
-    private final CheckBox symbolsCheckBox =
-            characterSetCheckBox(I18N_SYMBOLS, PasswordCharacterSet.SYMBOLS);
-    private final List<CheckBox> characterSetCheckBoxes = List.of(
+public class GeneratorController extends JFrame {
+
+    private final JCheckBox upperCaseCheckBox = new JCheckBox(uiString(UI, I18N_UPPER_CASE));
+    private final JCheckBox lowerCaseCheckBox = new JCheckBox(uiString(UI, I18N_LOWER_CASE));
+    private final JCheckBox digitsCheckBox = new JCheckBox(uiString(UI, I18N_DIGITS));
+    private final JCheckBox symbolsCheckBox = new JCheckBox(uiString(UI, I18N_SYMBOLS));
+    private final List<JCheckBox> characterSetCheckBoxes = List.of(
             upperCaseCheckBox, lowerCaseCheckBox, digitsCheckBox, symbolsCheckBox
     );
+    private final Map<String, PasswordCharacterSet> charsetMap = Map.of(
+            upperCaseCheckBox.getText(), PasswordCharacterSet.UPPER_CASE_LETTERS,
+            lowerCaseCheckBox.getText(), PasswordCharacterSet.LOWER_CASE_LETTERS,
+            digitsCheckBox.getText(), PasswordCharacterSet.DIGITS,
+            symbolsCheckBox.getText(), PasswordCharacterSet.SYMBOLS
+    );
 
-    private final CheckBox avoidAmbiguousLettersCheckBox = new CheckBox(fxString(UI, I18N_AVOID_AMBIGUOUS));
-    private final TextField passwdField = new TextField();
-    private final ComboBox<PasswordLength> lengthComboBox = new ComboBox<>();
+    private final JCheckBox avoidAmbiguousLettersCheckBox = new JCheckBox(uiString(UI, I18N_AVOID_AMBIGUOUS));
+    private final JTextField passwdField = new JTextField(40);
+    private final JComboBox<PasswordLength> lengthComboBox = new JComboBox<>();
 
     private final PasswordGenerator generator = new PasswordGenerator();
 
     public GeneratorController() {
-        setTop(createMenuBar());
-        setCenter(new VBox(
-                new TitledPane(fxString(UI, I18N_PASSWORD), new BorderPane(passwdField)),
-                new TitledPane(fxString(UI, I18N_OPTIONS),
-                        new VBox(10,
-                                hBox(List.of(upperCaseCheckBox, lowerCaseCheckBox, digitsCheckBox, symbolsCheckBox),
-                                        box -> {
-                                            box.setAlignment(Pos.CENTER_LEFT);
-                                            box.setSpacing(10);
-                                        }),
-                                hBox(List.of(label(fxString(UI, I18N_LENGTH, COLON)), lengthComboBox),
-                                        box -> {
-                                            box.setAlignment(Pos.CENTER_LEFT);
-                                            box.setSpacing(3);
-                                        }),
-                                avoidAmbiguousLettersCheckBox
-                        )
-                )
-        ));
+        setTitle(uiString(UI, I18N_TITLE));
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setJMenuBar(createMenuBar());
+        setIconImage(getIcon().getImage());
+
+        passwdField.setEditable(false);
+        passwdField.getInputMap().put(CTRL_C, "none");
+
+        var container = getContentPane();
+        container.setLayout(new BoxLayout(container, Y_AXIS));
+
+        var passwordPanel = new JPanel();
+        passwordPanel.setBorder(
+                BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(uiString(UI, I18N_PASSWORD)),
+                        new EmptyBorder(5, 5, 5, 5)));
+        passwordPanel.add(passwdField);
+        passwordPanel.setAlignmentX(0);
+
+        var optionsPanel = new JPanel();
+        optionsPanel.setBorder(
+                BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(uiString(UI, I18N_OPTIONS)),
+                        new EmptyBorder(5, 5, 5, 5)));
+        optionsPanel.setLayout(new BoxLayout(optionsPanel, Y_AXIS));
+        optionsPanel.setAlignmentX(0);
+
+        var lengthPanel = new JPanel();
+        lengthPanel.setLayout(new BoxLayout(lengthPanel, BoxLayout.X_AXIS));
+        lengthPanel.add(new JLabel(uiString(UI, I18N_LENGTH, COLON)));
+        lengthPanel.add(Box.createHorizontalStrut(5));
+        lengthPanel.add(lengthComboBox);
+        lengthPanel.add(Box.createHorizontalGlue());
+        lengthPanel.setAlignmentX(0);
+        lengthPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        var checkBoxPanel = new JPanel();
+        checkBoxPanel.setLayout(new BoxLayout(checkBoxPanel, BoxLayout.X_AXIS));
+        checkBoxPanel.add(upperCaseCheckBox);
+        checkBoxPanel.add(Box.createHorizontalStrut(10));
+        checkBoxPanel.add(lowerCaseCheckBox);
+        checkBoxPanel.add(Box.createHorizontalStrut(10));
+        checkBoxPanel.add(digitsCheckBox);
+        checkBoxPanel.add(Box.createHorizontalStrut(10));
+        checkBoxPanel.add(symbolsCheckBox);
+        checkBoxPanel.add(Box.createHorizontalGlue());
+        checkBoxPanel.setAlignmentX(0);
+        checkBoxPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        avoidAmbiguousLettersCheckBox.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        optionsPanel.add(checkBoxPanel);
+        optionsPanel.add(lengthPanel);
+        optionsPanel.add(avoidAmbiguousLettersCheckBox);
+
+        container.add(Box.createVerticalStrut(5));
+        container.add(passwordPanel);
+        container.add(Box.createVerticalStrut(5));
+        container.add(optionsPanel);
+        container.add(Box.createVerticalStrut(5));
+        avoidAmbiguousLettersCheckBox.setAlignmentX(0);
 
         // Initial state
         avoidAmbiguousLettersCheckBox.setSelected(true);
-        lengthComboBox.getItems().addAll(PasswordLength.values());
-        lengthComboBox.getSelectionModel().select(PasswordLength.THIRTY_TWO);
+
+        lengthComboBox.setModel(new DefaultComboBoxModel<>(PasswordLength.values()));
+        lengthComboBox.setSelectedItem(PasswordLength.THIRTY_TWO);
+        lengthComboBox.setMaximumSize(lengthComboBox.getMinimumSize());
+
         upperCaseCheckBox.setSelected(true);
         lowerCaseCheckBox.setSelected(true);
         digitsCheckBox.setSelected(true);
+
+        setResizable(false);
+        pack();
+        setLocationRelativeTo(null);
     }
 
-    private CheckBox characterSetCheckBox(String key, PasswordCharacterSet characterSet) {
-        var checkBox = new CheckBox(fxString(UI, key));
-        checkBox.setUserData(characterSet);
-        return checkBox;
-    }
+    private JMenuBar createMenuBar() {
+        var menuBar = new JMenuBar();
 
-    private MenuBar createMenuBar() {
-        var menuBar = new MenuBar(
-                menu(fxString(UI, I18N_FILE),
-                        menuItem(fxString(UI, I18N_GENERATE), SHORTCUT_G, _ -> onGenerate()),
-                        new SeparatorMenuItem(),
-                        menuItem(fxString(UI, I18N_EXIT), _ -> onExit())
-                ),
-                menu(fxString(UI, I18N_EDIT),
-                        menuItem(fxString(UI, I18N_COPY), SHORTCUT_C, _ -> onCopy())
-                ),
-                menu(fxString(UI, I18N_PRESETS),
-                        menuItem(fxString(UI, I18N_MEDIUM_PASSWORD), SHORTCUT_M, _ -> onMediumPassword()),
-                        menuItem(fxString(UI, I18N_LONG_PASSWORD), SHORTCUT_L, _ -> onLongPassword()),
-                        new SeparatorMenuItem(),
-                        menuItem("Unix", SHORTCUT_U, _ -> onUnix()),
-                        menuItem("PIN", SHORTCUT_P, _ -> onPin())
-                )
-        );
+        var fileMenu = new JMenu(uiString(UI, I18N_FILE));
+        var generateMenuItem = new JMenuItem(uiString(UI, I18N_GENERATE));
+        generateMenuItem.addActionListener(_ -> onGenerate());
+        generateMenuItem.setAccelerator(CTRL_G);
+        var exitMenuItem = new JMenuItem(uiString(UI, I18N_EXIT));
+        exitMenuItem.addActionListener(_ -> onExit());
+        fileMenu.add(generateMenuItem);
+        fileMenu.add(new JSeparator());
+        fileMenu.add(exitMenuItem);
 
-        menuBar.setUseSystemMenuBar(true);
+        var editMenu = new JMenu(uiString(UI, I18N_EDIT));
+        var copyMenuItem = new JMenuItem(uiString(UI, I18N_COPY));
+        copyMenuItem.addActionListener(_ -> onCopy());
+        copyMenuItem.setAccelerator(CTRL_C);
+        editMenu.add(copyMenuItem);
+
+        var presetsMenu = new JMenu(uiString(UI, I18N_PRESETS));
+        var mediumPasswordMenuItem = new JMenuItem(uiString(UI, I18N_MEDIUM_PASSWORD));
+        mediumPasswordMenuItem.addActionListener(_ -> onMediumPassword());
+        mediumPasswordMenuItem.setAccelerator(CTRL_M);
+        var longPasswordMenuItem = new JMenuItem(uiString(UI, I18N_LONG_PASSWORD));
+        longPasswordMenuItem.addActionListener(_ -> onLongPassword());
+        longPasswordMenuItem.setAccelerator(CTRL_L);
+        var unixMenuItem = new JMenuItem("Unix");
+        unixMenuItem.addActionListener(_ -> onUnix());
+        unixMenuItem.setAccelerator(CTRL_U);
+        var pinMenuItem = new JMenuItem("PIN");
+        pinMenuItem.addActionListener(_ -> onPin());
+        pinMenuItem.setAccelerator(CTRL_P);
+        presetsMenu.add(mediumPasswordMenuItem);
+        presetsMenu.add(longPasswordMenuItem);
+        presetsMenu.add(new JSeparator());
+        presetsMenu.add(unixMenuItem);
+        presetsMenu.add(pinMenuItem);
+
+        menuBar.add(fileMenu);
+        menuBar.add(editMenu);
+        menuBar.add(presetsMenu);
         return menuBar;
     }
 
@@ -134,7 +191,7 @@ class GeneratorController extends BorderPane {
         lowerCaseCheckBox.setSelected(true);
         digitsCheckBox.setSelected(true);
         symbolsCheckBox.setSelected(true);
-        lengthComboBox.getSelectionModel().select(PasswordLength.EIGHT);
+        lengthComboBox.setSelectedItem(PasswordLength.EIGHT);
         onGenerate();
     }
 
@@ -143,7 +200,7 @@ class GeneratorController extends BorderPane {
         lowerCaseCheckBox.setSelected(false);
         digitsCheckBox.setSelected(true);
         symbolsCheckBox.setSelected(false);
-        lengthComboBox.getSelectionModel().select(PasswordLength.FOUR);
+        lengthComboBox.setSelectedItem(PasswordLength.FOUR);
         onGenerate();
     }
 
@@ -152,7 +209,7 @@ class GeneratorController extends BorderPane {
         lowerCaseCheckBox.setSelected(true);
         digitsCheckBox.setSelected(true);
         symbolsCheckBox.setSelected(true);
-        lengthComboBox.getSelectionModel().select(PasswordLength.SIXTEEN);
+        lengthComboBox.setSelectedItem(PasswordLength.SIXTEEN);
         onGenerate();
     }
 
@@ -161,28 +218,31 @@ class GeneratorController extends BorderPane {
         lowerCaseCheckBox.setSelected(true);
         digitsCheckBox.setSelected(true);
         symbolsCheckBox.setSelected(true);
-        lengthComboBox.getSelectionModel().select(PasswordLength.THIRTY_TWO);
+        lengthComboBox.setSelectedItem(PasswordLength.THIRTY_TWO);
         onGenerate();
     }
 
     private void onGenerate() {
         var characterSets = characterSetCheckBoxes.stream()
-                .filter(CheckBox::isSelected)
-                .map(checkBox -> (PasswordCharacterSet) checkBox.getUserData())
+                .filter(JCheckBox::isSelected)
+                .map(checkBox -> charsetMap.get(checkBox.getText()))
                 .collect(Collectors.toSet());
 
         passwdField.setText(generator.generate(
                 characterSets,
-                lengthComboBox.getSelectionModel().getSelectedItem().getLength(),
+                ((PasswordLength) lengthComboBox.getSelectedItem()).getLength(),
                 !avoidAmbiguousLettersCheckBox.isSelected()
         ));
     }
 
+    private ImageIcon getIcon() {
+        return new ImageIcon(this.getClass().getResource("/icon.png"));
+    }
+
     private void onCopy() {
-        var cb = Clipboard.getSystemClipboard();
-        var ct = new ClipboardContent();
-        ct.putString(passwdField.getText());
-        cb.setContent(ct);
+        var cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+        var ct = new StringSelection(passwdField.getText());
+        cb.setContents(ct, null);
     }
 
     private void onExit() {

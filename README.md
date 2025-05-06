@@ -1,7 +1,7 @@
 # Password Generator
 
-![JDK](https://www.panteleyev.org/badges/java-22.svg)
-[![License](https://www.panteleyev.org/badges/license.svg)](LICENSE)
+![JDK](./docs/java-24.png)
+[![License](./docs/license.png)](LICENSE)
 
 Simple password generator for desktop platforms like OS X, Linux or Windows.
 
@@ -24,7 +24,7 @@ This options excludes characters that may look confusing depending on font: 'I',
 
 ## Build
 
-Set ```JAVA_HOME``` to JDK 22+.
+Set ```JAVA_HOME``` to JDK 24+.
 
 ```shell script
 $ ./mvnw clean verify
@@ -33,15 +33,18 @@ $ ./mvnw clean verify
 ## Run
 
 ```
-./mvnw javafx:run
+./mvnw exec:exec@run
 ```
 
-## Binary Packages
+## Custom Run-Time Image
 
-To build binary installers perform the following steps:
-* On Microsoft Windows: install [WiX Toolset 3.x](https://github.com/wixtoolset/wix3/releases), add its binary
-  directory to ```PATH``` environment variable
-* Execute:
+```shell script
+./mvnw jlink:jlink
+```
+
+Run-time image will be found in ```target/jlink``` directory.
+
+## Binary Packages
 
 ```shell script
 ./mvnw clean verify jpackage:jpackage

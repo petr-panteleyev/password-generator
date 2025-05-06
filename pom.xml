@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright © 2017-2024 Petr Panteleyev <petr@panteleyev.org>
+  Copyright © 2017-2025 Petr Panteleyev <petr@panteleyev.org>
   SPDX-License-Identifier: BSD-2-Clause
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -9,7 +9,7 @@
 
     <groupId>org.panteleyev</groupId>
     <artifactId>password-generator</artifactId>
-    <version>24.8.2</version>
+    <version>25.5.1</version>
     <packaging>jar</packaging>
 
     <profiles>
@@ -85,52 +85,36 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>22</maven.compiler.release>
+        <maven.compiler.release>24</maven.compiler.release>
         <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
         <appModule>password.generator</appModule>
         <appMainClass>org.panteleyev.passwdgen.PasswordGeneratorApplication</appMainClass>
         <timestamp>${maven.build.timestamp}</timestamp>
         <!-- Plugins -->
         <mavenResourcePluginVersion>3.3.1</mavenResourcePluginVersion>
-        <mavenCompilerPluginVersion>3.13.0</mavenCompilerPluginVersion>
+        <mavenCompilerPluginVersion>3.14.0</mavenCompilerPluginVersion>
         <mavenJarPluginVersion>3.4.2</mavenJarPluginVersion>
-        <mavenSurefirePluginVersion>3.3.1</mavenSurefirePluginVersion>
-        <mavenDependencyPluginVersion>3.7.1</mavenDependencyPluginVersion>
-        <javaFxPluginVersion>0.0.8</javaFxPluginVersion>
-        <jpackageMavenPluginVersion>1.6.5</jpackageMavenPluginVersion>
+        <mavenSurefirePluginVersion>3.5.2</mavenSurefirePluginVersion>
+        <mavenDependencyPluginVersion>3.8.1</mavenDependencyPluginVersion>
+        <mavenExecPluginVersion>3.5.0</mavenExecPluginVersion>
+        <jlinkMavenPluginVersion>1.1.0</jlinkMavenPluginVersion>
+        <jpackageMavenPluginVersion>1.6.6</jpackageMavenPluginVersion>
         <!-- Dependencies -->
-        <javaFxVersion>22.0.2</javaFxVersion>
-        <javaCommonsVersion>1.4.1</javaCommonsVersion>
-        <javaFxHelpersVersion>1.17.0</javaFxHelpersVersion>
-        <jUnitVersion>5.10.2</jUnitVersion>
+        <javaCommonsVersion>1.6.1</javaCommonsVersion>
+        <flatLafVersion>3.6</flatLafVersion>
+        <jUnitVersion>5.12.1</jUnitVersion>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-base</artifactId>
-            <version>${javaFxVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>${javaFxVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.panteleyev</groupId>
-            <artifactId>java-fx-helpers</artifactId>
-            <version>${javaFxHelpersVersion}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.openjfx</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>org.panteleyev</groupId>
             <artifactId>commons</artifactId>
             <version>${javaCommonsVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf</artifactId>
+            <version>${flatLafVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -199,7 +183,24 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jlink-maven-plugin</artifactId>
+                <version>${jlinkMavenPluginVersion}</version>
+                <configuration>
+                    <output>${project.build.directory}/jlink</output>
+                    <modulePaths>
+                        <modulePath>${project.build.directory}/jmods</modulePath>
+                    </modulePaths>
+                    <addModules>
+                        <addModule>ALL-MODULE-PATH</addModule>
+                    </addModules>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <noManPages>true</noManPages>
+                    <stripDebug>true</stripDebug>
+                    <generateCdsArchive>true</generateCdsArchive>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.panteleyev</groupId>
                 <artifactId>jpackage-maven-plugin</artifactId>
@@ -214,25 +215,49 @@
                         <modulePath>target/jmods</modulePath>
                     </modulePaths>
                     <destination>target/dist</destination>
+                    <removeDestination>true</removeDestination>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>${javaFxPluginVersion}</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${mavenExecPluginVersion}</version>
                 <configuration>
-                    <mainClass>${appModule}/${appMainClass}</mainClass>
+                    <executable>java</executable>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>default-cli</id>
+                        <id>run</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>
+                                <argument>-Xms100m</argument>
+                                <argument>-Xmx100m</argument>
+                                <argument>--module-path</argument>
+                                <modulepath/>
+                                <argument>--module</argument>
+                                <argument>${appModule}/${appMainClass}</argument>
+                            </arguments>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>debug</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
                         <configuration>
-                            <options>
-                                <option>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>
-                            </options>
+                            <arguments>
+                                <argument>-Xms100m</argument>
+                                <argument>-Xmx100m</argument>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <argument>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</argument>
+                                <argument>--module-path</argument>
+                                <modulepath/>
+                                <argument>--module</argument>
+                                <argument>${appModule}/${appMainClass}</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>

@@ -1,8 +1,0 @@
-.titled-pane {
-    -fx-collapsible: false;
-    -fx-focus-traversable: false;
-}
-
-.text-field {
-    -fx-focus-traversable: false;
-}
