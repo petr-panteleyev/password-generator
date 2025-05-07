@@ -1,5 +1,5 @@
 /*
- Copyright © 2024 Petr Panteleyev <petr@panteleyev.org>
+ Copyright © 2024-2025 Petr Panteleyev <petr@panteleyev.org>
  SPDX-License-Identifier: BSD-2-Clause
  */
 package org.panteleyev.passwdgen.bundles;
@@ -30,7 +30,7 @@ public class UiBundle extends ListResourceBundle {
         return new Object[][]{
                 {I18N_COPY, "Copy"},
                 {I18N_DIGITS, "Digits"},
-                {I18N_EDIT, "File"},
+                {I18N_EDIT, "Edit"},
                 {I18N_EXIT, "Exit"},
                 {I18N_GENERATE, "Generate"},
                 {I18N_FILE, "File"},

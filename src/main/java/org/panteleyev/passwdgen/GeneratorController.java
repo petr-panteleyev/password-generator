@@ -139,7 +139,7 @@ public class GeneratorController extends JFrame {
 
         setResizable(false);
         pack();
-        setLocationRelativeTo(null);
+        setLocationByPlatform(true);
     }
 
     private JMenuBar createMenuBar() {

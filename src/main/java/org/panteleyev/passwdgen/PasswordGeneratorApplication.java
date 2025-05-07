@@ -7,6 +7,7 @@ package org.panteleyev.passwdgen;
 import com.formdev.flatlaf.FlatLightLaf;
 import org.panteleyev.passwdgen.bundles.UiBundle;
 
+import javax.swing.*;
 import java.util.ResourceBundle;
 
 import static java.util.ResourceBundle.getBundle;
@@ -16,6 +17,6 @@ public class PasswordGeneratorApplication {
 
     public static void main(String[] args) {
         FlatLightLaf.setup();
-        new GeneratorController().setVisible(true);
+        SwingUtilities.invokeLater(() -> new GeneratorController().setVisible(true));
     }
 }
