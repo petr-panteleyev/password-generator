@@ -11,12 +11,12 @@ Simple password generator for desktop platforms like OS X, Linux or Windows.
 
 There are several presets called by the corresponding menu item:
 
-|Preset|Upper Case|Lower Case|Digits|Symbols|Length|
-|---|---|---|---|---|---|
-|Long|X|X|X|X|32|
-|Medium|X|X|X|X|16|
-|UNIX|X|X|X|X|8|
-|PIN| | |X| |4|
+| Preset | Upper Case | Lower Case | Digits | Symbols | Length |
+|--------|------------|------------|--------|---------|--------|
+| Long   | X          | X          | X      | X       | 32     |
+| Medium | X          | X          | X      | X       | 16     |
+| UNIX   | X          | X          | X      | X       | 8      |
+| PIN    |            |            | X      |         | 4      |
 
 ## Ambiguous Letters
 
@@ -26,31 +26,31 @@ This options excludes characters that may look confusing depending on font: 'I',
 
 Set ```JAVA_HOME``` to JDK 24+.
 
-```shell script
-$ ./mvnw clean verify
+```shell
+$ ./gradlew clean build
 ```
 
 ## Run
 
-```
-./mvnw exec:exec@run
+```shell
+$ ./gradlew run
 ```
 
 ## Custom Run-Time Image
 
-```shell script
-./mvnw jlink:jlink
+```shell
+./gradlew jlink
 ```
 
-Run-time image will be found in ```target/jlink``` directory.
+Run-time image will be found in ```build/jlink``` directory.
 
 ## Binary Packages
 
 ```shell script
-./mvnw clean verify jpackage:jpackage
+./gradlew jpackage
 ```
 
-Installation packages will be found in ```target/dist``` directory.
+Installation packages will be found in ```build/dist``` directory.
 
 ## Support
 

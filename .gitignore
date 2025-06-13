@@ -4,8 +4,6 @@ build
 *~
 **/private
 
-dependency-reduced-pom.xml
-
 /target/
 /.gradle/
 
