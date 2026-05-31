@@ -13,8 +13,12 @@ dependencyResolutionManagement {
             library("commons", "org.panteleyev:commons:1.6.1")
             library("flatlaf", "com.formdev:flatlaf:3.6")
         }
+        create("jetbrains") {
+            version("kotlin", "2.3.21")
+            library("annotations", "org.jetbrains:annotations:26.1.0")
+        }
         create("junit") {
-            library("jupiter", "org.junit.jupiter:junit-jupiter:5.13.1")
+            library("jupiter", "org.junit.jupiter:junit-jupiter:6.1.0")
         }
     }
 }

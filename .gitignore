@@ -11,3 +11,5 @@ build
 *.iml
 nb-configuration.xml
 nbactions.xml
+
+.gigacode

@@ -1,16 +1,16 @@
-/*
- Copyright © 2025 Petr Panteleyev <petr@panteleyev.org>
- SPDX-License-Identifier: BSD-2-Clause
- */
+// Copyright © 2025-2026 Petr Panteleyev
+// SPDX-License-Identifier: BSD-2-Clause
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.panteleyev.jpackage.ImageType
 
 plugins {
+    kotlin("jvm") version jetbrains.versions.kotlin
     application
-    id("org.panteleyev.jlinkplugin") version "1.0.0"
-    id("org.panteleyev.jpackageplugin") version "1.7.1"
+    id("org.panteleyev.jlinkplugin") version "2.0.0"
+    id("org.panteleyev.jpackageplugin") version "2.0.1"
 }
 
-version = "25.6.1"
+version = "26.5.1"
 
 repositories {
     mavenCentral()
@@ -20,18 +20,30 @@ dependencies {
     implementation(libs.commons)
     implementation(libs.flatlaf)
 
+    implementation(jetbrains.annotations)
+
     testImplementation(junit.jupiter)
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(24))
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
+kotlin {
+    jvmToolchain(25)
+}
+
+tasks.compileKotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_25)
     }
 }
 
 application {
     mainModule.set("password.generator")
-    mainClass.set("org.panteleyev.passwdgen.PasswordGeneratorApplication")
+    mainClass.set("org.panteleyev.passwdgen.PasswordGeneratorApplicationKt")
 }
 
 tasks.register("copyDependencies", Copy::class) {
