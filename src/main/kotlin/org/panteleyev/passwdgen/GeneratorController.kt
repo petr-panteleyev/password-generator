@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: BSD-2-Clause
 package org.panteleyev.passwdgen
 
-import org.panteleyev.commons.password.PasswordCharacterSet
-import org.panteleyev.commons.password.PasswordGenerator
 import org.panteleyev.passwdgen.Shortcuts.CTRL_C
 import org.panteleyev.passwdgen.Shortcuts.CTRL_G
 import org.panteleyev.passwdgen.Shortcuts.CTRL_L
@@ -30,6 +28,8 @@ import org.panteleyev.passwdgen.bundles.Internationalization.I18N_SYMBOLS
 import org.panteleyev.passwdgen.bundles.Internationalization.I18N_TITLE
 import org.panteleyev.passwdgen.bundles.Internationalization.I18N_UPPER_CASE
 import org.panteleyev.passwdgen.bundles.Internationalization.UI
+import org.panteleyev.password.PasswordCharacterSet
+import org.panteleyev.password.PasswordGenerator
 import java.awt.Toolkit
 import java.awt.datatransfer.StringSelection
 import javax.swing.BorderFactory

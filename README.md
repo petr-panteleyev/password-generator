@@ -1,8 +1,5 @@
 # Password Generator
 
-![JDK](./docs/java-24.png)
-[![License](./docs/license.png)](LICENSE)
-
 Simple password generator for desktop platforms like OS X, Linux or Windows.
 
 ![screenshot](docs/screenshot.png)
@@ -24,7 +21,7 @@ This options excludes characters that may look confusing depending on font: 'I',
 
 ## Build
 
-Set ```JAVA_HOME``` to JDK 24+.
+Set ```JAVA_HOME``` to JDK 25+.
 
 ```shell
 $ ./gradlew clean build

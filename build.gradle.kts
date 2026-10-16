@@ -6,18 +6,18 @@ import org.panteleyev.jpackage.ImageType
 plugins {
     kotlin("jvm") version jetbrains.versions.kotlin
     application
-    id("org.panteleyev.jlinkplugin") version "2.0.0"
-    id("org.panteleyev.jpackageplugin") version "2.0.1"
+    id("org.panteleyev.jlinkplugin") version "2.0.1"
+    id("org.panteleyev.jpackageplugin") version "2.1.0"
 }
 
-version = "26.5.1"
+version = "26.10.1"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation(libs.commons)
+    implementation(libs.crypto)
     implementation(libs.flatlaf)
 
     implementation(jetbrains.annotations)

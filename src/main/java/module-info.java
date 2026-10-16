@@ -4,7 +4,7 @@ open module password.generator {
     requires java.base;
     requires java.desktop;
     requires com.formdev.flatlaf;
-    requires org.panteleyev.commons;
+    requires org.panteleyev.crypto;
     requires kotlin.stdlib;
 
     exports org.panteleyev.passwdgen;

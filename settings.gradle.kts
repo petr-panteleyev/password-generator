@@ -10,7 +10,7 @@ pluginManagement {
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            library("commons", "org.panteleyev:commons:1.6.1")
+            library("crypto", "org.panteleyev:org-panteleyev-crypto:1.0.0")
             library("flatlaf", "com.formdev:flatlaf:3.6")
         }
         create("jetbrains") {
@@ -18,7 +18,7 @@ dependencyResolutionManagement {
             library("annotations", "org.jetbrains:annotations:26.1.0")
         }
         create("junit") {
-            library("jupiter", "org.junit.jupiter:junit-jupiter:6.1.0")
+            library("jupiter", "org.junit.jupiter:junit-jupiter:6.1.3")
         }
     }
 }
